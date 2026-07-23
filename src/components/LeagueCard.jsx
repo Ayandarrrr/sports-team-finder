@@ -1,6 +1,13 @@
 function LeagueCard({ league }) {
   return (
     <div className="league-card">
+
+      <img
+        src={league.strBadge}
+        alt={league.strLeague}
+        className="league-badge"
+      />
+
       <h2>{league.strLeague}</h2>
 
       <p>
@@ -12,9 +19,13 @@ function LeagueCard({ league }) {
       </p>
 
       <p>
-        <strong>League Type:</strong>{" "}
-        {league.strLeagueAlternate || "N/A"}
+        <strong>Founded:</strong> {league.intFormedYear}
       </p>
+
+      <p>
+        <strong>Current Season:</strong> {league.strCurrentSeason}
+      </p>
+
     </div>
   );
 }
