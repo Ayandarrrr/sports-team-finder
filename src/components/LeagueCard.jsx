@@ -1,7 +1,6 @@
-function LeagueCard({ league }) {
+function LeagueCard({ league, onViewTeams }) {
   return (
     <div className="league-card">
-
       <img
         src={league.strBadge}
         alt={league.strLeague}
@@ -26,6 +25,12 @@ function LeagueCard({ league }) {
         <strong>Current Season:</strong> {league.strCurrentSeason}
       </p>
 
+      <button
+        className="view-btn"
+        onClick={() => onViewTeams(league.strLeague)}
+      >
+        View Teams
+      </button>
     </div>
   );
 }
