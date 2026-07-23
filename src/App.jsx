@@ -6,6 +6,7 @@ import useLeagues from "./hooks/useLeagues";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("England");
+  const [selectedLeague, setSelectedLeague] = useState("");
 
   const { leagues, loading, error } = useLeagues(searchTerm);
 
@@ -23,7 +24,13 @@ function App() {
       {error && <p>{error}</p>}
 
       {!loading && !error && (
-        <p>Leagues Found: {leagues.length}</p>
+        <>
+          <p>Leagues Found: {leagues.length}</p>
+
+          {selectedLeague && (
+            <h2>Selected League: {selectedLeague}</h2>
+          )}
+        </>
       )}
 
       <div className="league-container">
@@ -31,6 +38,7 @@ function App() {
           <LeagueCard
             key={league.idLeague}
             league={league}
+            onViewTeams={setSelectedLeague}
           />
         ))}
       </div>
