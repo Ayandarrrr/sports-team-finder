@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import useTeams from "./hooks/useTeams";
+import useTeams from "./hooks/useLeagues";
 import SearchBar from "./components/SearchBar";
 
 function App() {
