@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
+import LeagueCard from "./components/LeagueCard";
 import useLeagues from "./hooks/useLeagues";
 
 function App() {
@@ -21,30 +22,16 @@ function App() {
 
       {error && <p>{error}</p>}
 
-      <h2>Leagues Found: {leagues.length}</h2>
+      {!loading && !error && (
+        <p>Leagues Found: {leagues.length}</p>
+      )}
 
-      <div>
+      <div className="league-container">
         {leagues.map((league) => (
-          <div
+          <LeagueCard
             key={league.idLeague}
-            style={{
-              border: "1px solid #ddd",
-              padding: "15px",
-              margin: "10px",
-              borderRadius: "8px",
-            }}
-          >
-            <h3>{league.strLeague}</h3>
-            <p>
-              <strong>Country:</strong> {league.strCountry}
-            </p>
-            <p>
-              <strong>Sport:</strong> {league.strSport}
-            </p>
-            <p>
-              <strong>League Type:</strong> {league.strLeagueAlternate || "N/A"}
-            </p>
-          </div>
+            league={league}
+          />
         ))}
       </div>
     </div>
