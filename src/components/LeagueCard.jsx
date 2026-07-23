@@ -35,4 +35,4 @@ function LeagueCard({ league, onViewTeams }) {
   );
 }
 
-export default LeagueCard;
+export default LeagueCard;  
