@@ -17,6 +17,7 @@ function useTeams(leagueName) {
 
       try {
         const response = await fetch(
+          `https://www.thesportsdb.com/api/v1/json/123/search_all_teams.php?l=${encodeURIComponent(
           `https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=${encodeURIComponent(
             leagueName
           )}`
@@ -27,6 +28,18 @@ function useTeams(leagueName) {
         }
 
         const data = await response.json();
+
+        console.log("Teams from API:", data.teams);
+
+        // Remove youth and non-senior teams
+        const filteredTeams = (data.teams || []).filter((team) =>
+          !team.strTeam.match(
+            /U21|U23|U18|Women|Youth|Academy|Reserves/i
+          )
+        );
+
+        setTeams(filteredTeams);
+
         setTeams(data.teams || []);
       } catch (err) {
         setError(err.message);
@@ -39,6 +52,11 @@ function useTeams(leagueName) {
     fetchTeams();
   }, [leagueName]);
 
+  return {
+    teams,
+    loading,
+    error,
+  };
   return { teams, loading, error };
 }
 
