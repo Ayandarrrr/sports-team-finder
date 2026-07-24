@@ -1,46 +1,49 @@
 import { useState, useEffect } from "react";
 
-function useLeagues(country) {
-  const [leagues, setLeagues] = useState([]);
+function useTeams(leagueName) {
+  const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!country.trim()) {
-      setLeagues([]);
+    if (!leagueName) {
+      setTeams([]);
       return;
     }
 
-    async function fetchLeagues() {
+    async function fetchTeams() {
       setLoading(true);
       setError("");
 
       try {
         const response = await fetch(
-          `https://www.thesportsdb.com/api/v1/json/123/search_all_leagues.php?c=${encodeURIComponent(
-            country
-          )}&s=Soccer`
+          `https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=${encodeURIComponent(
+            leagueName
+          )}`
         );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch leagues.");
+          throw new Error("Failed to fetch teams.");
         }
 
         const data = await response.json();
-
-        setLeagues(data.countries || []);
+        setTeams(data.teams || []);
       } catch (err) {
         setError(err.message);
-        setLeagues([]);
+        setTeams([]);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchLeagues();
-  }, [country]);
+    fetchTeams();
+  }, [leagueName]);
 
-  return { leagues, loading, error };
+  return {
+    teams,
+    loading,
+    error,
+  };
 }
 
-export default useLeagues;
+export default useTeams;

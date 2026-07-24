@@ -11,9 +11,9 @@ function LeagueCard({ league }) {
     error,
   } = useTeams(showTeams ? league.strLeague : "");
 
+function LeagueCard({ league, onViewTeams }) {
   return (
     <div className="league-card">
-
       <img
         src={league.strBadge}
         alt={league.strLeague}
@@ -77,8 +77,15 @@ function LeagueCard({ league }) {
         </div>
       )}
 
+      <button
+        className="view-btn"
+        onClick={() => onViewTeams(league.strLeague)}
+      >
+        View Teams
+      </button>
     </div>
   );
 }
 
 export default LeagueCard
+export default LeagueCard;  
