@@ -1,46 +1,27 @@
-import { useState, useEffect } from "react";
+function TeamCard({ team }) {
+  return (
+    <div className="league-card">
+      <img
+        src={team.strTeamBadge}
+        alt={team.strTeam}
+        className="league-badge"
+      />
 
-function useTeams(leagueName) {
-  const [teams, setTeams] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+      <h2>{team.strTeam}</h2>
 
-  useEffect(() => {
-    if (!leagueName) {
-      setTeams([]);
-      return;
-    }
+      <p>
+        <strong>Founded:</strong> {team.intFormedYear}
+      </p>
 
-    async function fetchTeams() {
-      setLoading(true);
-      setError("");
+      <p>
+        <strong>Stadium:</strong> {team.strStadium}
+      </p>
 
-      try {
-        const response = await fetch(
-          `https://www.thesportsdb.com/api/v1/json/123/search_all_teams.php?l=${encodeURIComponent(
-            leagueName
-          )}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch teams.");
-        }
-
-        const data = await response.json();
-
-        setTeams(data.teams || []);
-      } catch (err) {
-        setError(err.message);
-        setTeams([]);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchTeams();
-  }, [leagueName]);
-
-  return { teams, loading, error };
+      <p>
+        <strong>Country:</strong> {team.strCountry}
+      </p>
+    </div>
+  );
 }
 
-export default useTeams;
+export default TeamCard;
