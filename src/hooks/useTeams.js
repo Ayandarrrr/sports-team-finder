@@ -16,8 +16,10 @@ function useTeams(leagueName) {
       setError("");
 
       try {
+        console.log("League selected:", leagueName);
+
         const response = await fetch(
-          `https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=${encodeURIComponent(
+          `https://www.thesportsdb.com/api/v1/json/123/search_all_teams.php?l=${encodeURIComponent(
             leagueName
           )}`
         );
@@ -28,8 +30,11 @@ function useTeams(leagueName) {
 
         const data = await response.json();
 
+        console.log("API Response:", data);
+
         setTeams(data.teams || []);
       } catch (err) {
+        console.error(err);
         setError(err.message);
         setTeams([]);
       } finally {
