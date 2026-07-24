@@ -1,4 +1,16 @@
-function LeagueCard({ league, onViewTeams }) {
+import { useState } from "react";
+import useTeams from "../hooks/useTeams";
+import TeamCard from "./TeamCard";
+
+function LeagueCard({ league }) {
+  const [showTeams, setShowTeams] = useState(false);
+
+  const {
+    teams,
+    loading,
+    error,
+  } = useTeams(showTeams ? league.strLeague : "");
+
   return (
     <div className="league-card">
       <img
@@ -27,10 +39,33 @@ function LeagueCard({ league, onViewTeams }) {
 
       <button
         className="view-btn"
-        onClick={() => onViewTeams(league.strLeague)}
+        onClick={() => setShowTeams(!showTeams)}
       >
-        View Teams
+        {showTeams ? "Hide Teams" : "View Teams"}
       </button>
+
+      {showTeams && (
+        <div className="teams-section">
+          {loading && <p>Loading teams...</p>}
+
+          {error && <p>{error}</p>}
+
+          {!loading && !error && (
+            <>
+              {teams.length > 0 ? (
+                teams.map((team) => (
+                  <TeamCard
+                    key={team.idTeam}
+                    team={team}
+                  />
+                ))
+              ) : (
+                <p>No teams found.</p>
+              )}
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
