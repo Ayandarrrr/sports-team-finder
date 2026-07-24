@@ -21,13 +21,17 @@ function useLeagues(searchTerm) {
 
         const data = await response.json();
 
-        const footballLeagues = (data.leagues || []).filter(
-          (league) =>
-            league.strSport === "Soccer" &&
-            league.strLeague
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
-        );
+        const footballLeagues = (data.leagues || []).filter((league) => {
+  const search = searchTerm.toLowerCase();
+
+  return (
+    league.strSport === "Soccer" &&
+    (
+      league.strLeague?.toLowerCase().includes(search) ||
+      league.strCountry?.toLowerCase().includes(search)
+    )
+  );
+});
 
         setLeagues(footballLeagues);
       } catch (err) {
