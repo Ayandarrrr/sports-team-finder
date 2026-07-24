@@ -5,11 +5,9 @@ import TeamCard from "./TeamCard";
 function LeagueCard({ league }) {
   const [showTeams, setShowTeams] = useState(false);
 
-  const {
-    teams,
-    loading,
-    error,
-  } = useTeams(showTeams ? league.strLeague : "");
+  const { teams, loading, error } = useTeams(
+    showTeams ? league.strLeague : ""
+  );
 
   return (
     <div className="league-card">
@@ -53,12 +51,14 @@ function LeagueCard({ league }) {
           {!loading && !error && (
             <>
               {teams.length > 0 ? (
-                teams.map((team) => (
-                  <TeamCard
-                    key={team.idTeam}
-                    team={team}
-                  />
-                ))
+                <div className="teams-grid">
+                  {teams.map((team) => (
+                    <TeamCard
+                      key={team.idTeam}
+                      team={team}
+                    />
+                  ))}
+                </div>
               ) : (
                 <p>No teams found.</p>
               )}
