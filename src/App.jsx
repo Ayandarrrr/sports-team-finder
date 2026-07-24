@@ -3,32 +3,20 @@ import "./App.css";
 
 import SearchBar from "./components/SearchBar";
 import LeagueCard from "./components/LeagueCard";
-
-import TeamCard from "./components/TeamCard";
 import useLeagues from "./hooks/useLeagues";
-import useTeams from "./hooks/useTeams";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("England");
-  const [selectedLeague, setSelectedLeague] = useState("");
 
-  const {
-    leagues,
-    loading,
-    error,
-  } = useLeagues(searchTerm);
-
-  const {
-    teams,
-    loading: teamsLoading,
-    error: teamsError,
-  } = useTeams(selectedLeague);
+  const { leagues, loading, error } = useLeagues(searchTerm);
 
   return (
     <div className="App">
       <header>
         <h1>⚽ Football League Finder</h1>
-        <p>Search football leagues and explore their teams.</p>
+        <p className="subtitle">
+          Search football leagues and explore their teams.
+        </p>
       </header>
 
       <SearchBar
@@ -41,7 +29,6 @@ function App() {
           Loading leagues...
         </h2>
       )}
-      {loading && <p>Loading leagues...</p>}
 
       {error && (
         <p className="error">
@@ -52,35 +39,14 @@ function App() {
       {!loading && !error && (
         <>
           <h3 className="league-count">
-            {leagues.length} leagues found
+            {leagues.length} league{leagues.length !== 1 ? "s" : ""} found
           </h3>
-          <p>Leagues Found: {leagues.length}</p>
 
           <div className="league-container">
             {leagues.map((league) => (
               <LeagueCard
                 key={league.idLeague}
                 league={league}
-                onViewTeams={setSelectedLeague}
-              />
-            ))}
-          </div>
-        </>
-      )}
-
-      {selectedLeague && (
-        <>
-          <h1>Teams in {selectedLeague}</h1>
-
-          {teamsLoading && <p>Loading teams...</p>}
-
-          {teamsError && <p>{teamsError}</p>}
-
-          <div className="league-container">
-            {teams.map((team) => (
-              <TeamCard
-                key={team.idTeam}
-                team={team}
               />
             ))}
           </div>

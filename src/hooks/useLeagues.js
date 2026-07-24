@@ -1,49 +1,51 @@
 import { useState, useEffect } from "react";
 
-function useTeams(leagueName) {
-  const [teams, setTeams] = useState([]);
+function useLeagues(searchTerm) {
+  const [leagues, setLeagues] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!leagueName) {
-      setTeams([]);
-      return;
-    }
-
-    async function fetchTeams() {
+    async function fetchLeagues() {
       setLoading(true);
       setError("");
 
       try {
         const response = await fetch(
-          `https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=${encodeURIComponent(
-            leagueName
-          )}`
+          "https://www.thesportsdb.com/api/v1/json/3/all_leagues.php"
         );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch teams.");
+          throw new Error("Failed to fetch leagues.");
         }
 
         const data = await response.json();
-        setTeams(data.teams || []);
+
+        const footballLeagues = (data.leagues || []).filter(
+          (league) =>
+            league.strSport === "Soccer" &&
+            league.strLeague
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
+        );
+
+        setLeagues(footballLeagues);
       } catch (err) {
         setError(err.message);
-        setTeams([]);
+        setLeagues([]);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchTeams();
-  }, [leagueName]);
+    fetchLeagues();
+  }, [searchTerm]);
 
   return {
-    teams,
+    leagues,
     loading,
     error,
   };
 }
 
-export default useTeams;
+export default useLeagues;
