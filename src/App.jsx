@@ -3,8 +3,8 @@ import "./App.css";
 
 import SearchBar from "./components/SearchBar";
 import LeagueCard from "./components/LeagueCard";
-
 import TeamCard from "./components/TeamCard";
+
 import useLeagues from "./hooks/useLeagues";
 import useTeams from "./hooks/useTeams";
 
@@ -12,11 +12,7 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("England");
   const [selectedLeague, setSelectedLeague] = useState("");
 
-  const {
-    leagues,
-    loading,
-    error,
-  } = useLeagues(searchTerm);
+  const { leagues, loading, error } = useLeagues(searchTerm);
 
   const {
     teams,
@@ -28,7 +24,7 @@ function App() {
     <div className="App">
       <header>
         <h1>⚽ Football League Finder</h1>
-        <p>Search football leagues and explore their teams.</p>
+        <p>Search football leagues by country and explore their teams.</p>
       </header>
 
       <SearchBar
@@ -36,25 +32,15 @@ function App() {
         setSearchTerm={setSearchTerm}
       />
 
-      {loading && (
-        <h2 className="loading">
-          Loading leagues...
-        </h2>
-      )}
-      {loading && <p>Loading leagues...</p>}
+      {loading && <h2 className="loading">Loading leagues...</h2>}
 
-      {error && (
-        <p className="error">
-          {error}
-        </p>
-      )}
+      {error && <p className="error">{error}</p>}
 
       {!loading && !error && (
         <>
           <h3 className="league-count">
             {leagues.length} leagues found
           </h3>
-          <p>Leagues Found: {leagues.length}</p>
 
           <div className="league-container">
             {leagues.map((league) => (
@@ -70,7 +56,7 @@ function App() {
 
       {selectedLeague && (
         <>
-          <h1>Teams in {selectedLeague}</h1>
+          <h2>Teams in {selectedLeague}</h2>
 
           {teamsLoading && <p>Loading teams...</p>}
 
