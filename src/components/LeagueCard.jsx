@@ -13,6 +13,7 @@ function LeagueCard({ league }) {
 
   return (
     <div className="league-card">
+
       <img
         src={league.strBadge}
         alt={league.strLeague}
@@ -30,12 +31,13 @@ function LeagueCard({ league }) {
       </p>
 
       <p>
-        <strong>Founded:</strong> {league.intFormedYear}
+        <strong>Founded:</strong> {league.intFormedYear || "Unknown"}
       </p>
 
       <p>
-        <strong>Season:</strong> {league.strCurrentSeason}
+        <strong>Season:</strong> {league.strCurrentSeason || "Unknown"}
       </p>
+
 
       <button
         className="view-btn"
@@ -44,30 +46,39 @@ function LeagueCard({ league }) {
         {showTeams ? "▲ Hide Teams" : "▼ View Teams"}
       </button>
 
+
       {showTeams && (
         <div className="teams-section">
+
           {loading && <p>Loading teams...</p>}
 
           {error && <p>{error}</p>}
 
+
           {!loading && !error && (
-            <>
-              {teams.length > 0 ? (
-                teams.map((team) => (
+            teams.length > 0 ? (
+
+              <div className="teams-grid">
+
+                {teams.map((team) => (
                   <TeamCard
                     key={team.idTeam}
                     team={team}
                   />
-                ))
-              ) : (
-                <p>No teams found for this league.</p>
-              )}
-            </>
+                ))}
+
+              </div>
+
+            ) : (
+              <p>No teams found for this league.</p>
+            )
           )}
+
         </div>
       )}
+
     </div>
   );
 }
 
-export default LeagueCard;
+export default LeagueCard

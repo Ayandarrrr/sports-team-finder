@@ -11,16 +11,6 @@ function useTeams(leagueName) {
       return;
     }
 
-    // Map league names to the names expected by the API
-    const leagueMap = {
-      Championship: "English Championship",
-      "League One": "English League 1",
-      "League Two": "English League 2",
-      "Premier League": "English Premier League",
-    };
-
-    const apiLeagueName = leagueMap[leagueName] || leagueName;
-
     async function fetchTeams() {
       setLoading(true);
       setError("");
@@ -28,7 +18,7 @@ function useTeams(leagueName) {
       try {
         const response = await fetch(
           `https://www.thesportsdb.com/api/v1/json/123/search_all_teams.php?l=${encodeURIComponent(
-            apiLeagueName
+            leagueName
           )}`
         );
 
@@ -38,7 +28,17 @@ function useTeams(leagueName) {
 
         const data = await response.json();
 
-        setTeams(data.teams || []);
+        console.log("Teams from API:", data.teams);
+
+        // Remove youth and non-senior teams
+        const filteredTeams = (data.teams || []).filter((team) =>
+          !team.strTeam.match(
+            /U21|U23|U18|Women|Youth|Academy|Reserves/i
+          )
+        );
+
+        setTeams(filteredTeams);
+
       } catch (err) {
         setError(err.message);
         setTeams([]);
@@ -50,7 +50,11 @@ function useTeams(leagueName) {
     fetchTeams();
   }, [leagueName]);
 
-  return { teams, loading, error };
+  return {
+    teams,
+    loading,
+    error,
+  };
 }
 
 export default useTeams;
