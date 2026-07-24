@@ -18,6 +18,7 @@ function useTeams(leagueName) {
       try {
         const response = await fetch(
           `https://www.thesportsdb.com/api/v1/json/123/search_all_teams.php?l=${encodeURIComponent(
+          `https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=${encodeURIComponent(
             leagueName
           )}`
         );
@@ -39,6 +40,7 @@ function useTeams(leagueName) {
 
         setTeams(filteredTeams);
 
+        setTeams(data.teams || []);
       } catch (err) {
         setError(err.message);
         setTeams([]);
@@ -55,6 +57,7 @@ function useTeams(leagueName) {
     loading,
     error,
   };
+  return { teams, loading, error };
 }
 
 export default useTeams;
