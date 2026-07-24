@@ -101,3 +101,16 @@ margin:8px 0;
 .view-btn:hover {
   background: #003f87;
 }
+
+.loading {
+  text-align: center;
+  margin: 20px;
+}
+
+.loading h2 {
+  color: #0057b8;
+}
+
+button {
+  margin: 20px 0;
+}
