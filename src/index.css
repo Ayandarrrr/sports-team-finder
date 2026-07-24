@@ -10,6 +10,10 @@ body {
   min-height: 100vh;
 }
 
+#root {
+  width: 100%;
+}
+
 .App {
   max-width: 1300px;
   margin: auto;
@@ -17,6 +21,7 @@ body {
 }
 
 
+/* Header */
 
 h1 {
   text-align: center;
@@ -33,6 +38,7 @@ h1 {
 }
 
 
+/* Search */
 
 input {
   display: block;
@@ -51,10 +57,10 @@ input {
 
 input:focus {
   transform: scale(1.02);
-  box-shadow: 0 10px 25px rgba(0, 87, 184, .25);
 }
 
 
+/* Leagues */
 
 .league-container {
   display: grid;
@@ -64,21 +70,20 @@ input:focus {
 }
 
 
-
 .league-card {
   background: white;
   border-radius: 20px;
   padding: 25px;
   text-align: center;
   box-shadow: 0 15px 35px rgba(0,0,0,.10);
-  transition: all .3s ease;
+  transition: .3s;
   overflow: hidden;
 }
 
 .league-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 45px rgba(0,87,184,.18);
 }
+
 
 .league-badge {
   width: 130px;
@@ -88,16 +93,20 @@ input:focus {
   margin: 0 auto 20px;
 }
 
+
 .league-card h2 {
   color: #0057b8;
   margin-bottom: 15px;
 }
 
+
 .league-card p {
   margin: 8px 0;
   color: #444;
-} 
+}
 
+
+/* Button */
 
 .view-btn {
   width: 100%;
@@ -110,23 +119,21 @@ input:focus {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: all .3s ease;
+  transition: .3s;
 }
 
 .view-btn:hover {
   background: #00429a;
-  transform: scale(1.03);
 }
 
 
-
+/* Teams */
 
 .teams-section {
   margin-top: 25px;
   border-top: 1px solid #e5e5e5;
   padding-top: 20px;
 }
-
 
 
 .teams-grid {
@@ -137,19 +144,19 @@ input:focus {
 }
 
 
-
 .team-row {
-  background: #ffffff;
+  background: white;
   border-radius: 15px;
   padding: 18px;
   box-shadow: 0 8px 18px rgba(0,0,0,.08);
-  transition: all .3s ease;
+  transition: .3s;
 }
+
 
 .team-row:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 25px rgba(0,87,184,.15);
 }
+
 
 .team-left {
   display: flex;
@@ -157,7 +164,6 @@ input:focus {
   align-items: center;
   text-align: center;
 }
-
 
 
 .team-badge {
@@ -168,23 +174,18 @@ input:focus {
 }
 
 
-
 .team-info h3 {
   color: #0057b8;
   font-size: 20px;
   margin-bottom: 12px;
 }
 
+
 .team-info p {
   margin: 6px 0;
   color: #555;
-  font-size: 14px;
-  line-height: 1.5;
 }
 
-.team-info strong {
-  color: #222;
-}
 
 .team-info a {
   color: #0057b8;
@@ -192,39 +193,49 @@ input:focus {
   font-weight: bold;
 }
 
-.team-info a:hover {
-  text-decoration: underline;
-}
 
-
+/* Messages */
 
 .loading {
   text-align: center;
   margin: 30px 0;
   color: #0057b8;
-  font-size: 18px;
   font-weight: bold;
 }
+
 
 .error {
   text-align: center;
   color: #d32f2f;
   font-weight: bold;
-  margin: 20px 0;
+  margin: 20px;
 }
 
 
+/* Animation */
 
-a {
-  color: #0057b8;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
+.league-card,
+.team-row {
+  animation: fadeIn .5s ease;
 }
 
 
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+/* Scrollbar */
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -239,42 +250,8 @@ a:hover {
   border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #003f87;
-}
 
-
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.league-card,
-.team-row {
-  animation: fadeIn .5s ease;
-}
-
-
-
-
-@media (max-width: 992px) {
-
-  .league-container {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  }
-
-  .teams-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-}
+/* Responsive */
 
 @media (max-width: 768px) {
 
@@ -284,10 +261,6 @@ a:hover {
 
   h1 {
     font-size: 34px;
-  }
-
-  .subtitle {
-    font-size: 16px;
   }
 
   input {
@@ -302,28 +275,13 @@ a:hover {
     grid-template-columns: 1fr;
   }
 
-  .league-card {
-    padding: 20px;
-  }
-
-  .team-row {
-    padding: 15px;
-  }
-
-  .team-badge {
-    width: 70px;
-    height: 70px;
-  }
 }
+
 
 @media (max-width: 480px) {
 
   h1 {
     font-size: 28px;
-  }
-
-  .subtitle {
-    font-size: 15px;
   }
 
   .league-badge {
@@ -335,15 +293,5 @@ a:hover {
     font-size: 14px;
     padding: 12px;
   }
-}
-}
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f4f7fb;
 }
-
-#root {
-  width: 100%;
-} 
-

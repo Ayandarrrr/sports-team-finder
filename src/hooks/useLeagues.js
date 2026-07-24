@@ -1,45 +1,49 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
-function useLeagues(searchTerm) {
+const API_URL =
+  "https://www.thesportsdb.com/api/v1/json/3/all_leagues.php";
+
+export default function useLeagues() {
   const [leagues, setLeagues] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [filteredLeagues, setFilteredLeagues] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    async function fetchLeagues() {
-      setLoading(true);
-      setError("");
-
-      try {
-        const response = await fetch(
-          "https://www.thesportsdb.com/api/v1/json/3/all_leagues.php"
+    fetch(API_URL)
+      .then((response) => response.json())
+      .then((data) => {
+        const sportsLeagues = data.leagues.filter(
+          (league) => league.strSport === "Soccer"
         );
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch leagues.");
-        }
-
-        const data = await response.json();
-
-        console.log(data);
-
-        setLeagues(data.leagues || []);
-      } catch (err) {
-        setError(err.message);
-        setLeagues([]);
-      } finally {
+        setLeagues(sportsLeagues);
+        setFilteredLeagues(sportsLeagues);
         setLoading(false);
-      }
-    }
-
-    fetchLeagues();
+      })
+      .catch(() => {
+        setError("Failed to load leagues");
+        setLoading(false);
+      });
   }, []);
 
+
+  const searchLeagues = (value) => {
+    const search = value.toLowerCase();
+
+    const results = leagues.filter((league) =>
+      league.strLeague.toLowerCase().includes(search) ||
+      league.strCountry?.toLowerCase().includes(search)
+    );
+
+    setFilteredLeagues(results);
+  };
+
+
   return {
-    leagues,
+    leagues: filteredLeagues,
     loading,
     error,
+    searchLeagues
   };
 }
-
-export default useLeagues;

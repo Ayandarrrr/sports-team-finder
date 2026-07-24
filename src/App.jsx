@@ -1,79 +1,67 @@
-import { useState } from "react";
-import "./App.css";
-
+import useLeagues from "./hooks/useLeagues";
 import SearchBar from "./components/SearchBar";
 import LeagueCard from "./components/LeagueCard";
-import TeamCard from "./components/TeamCard";
+import "./App.css";
 
-import useLeagues from "./hooks/useLeagues";
-import useTeams from "./hooks/useTeams";
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState("England");
-  const [selectedLeague, setSelectedLeague] = useState("");
-
-  const { leagues, loading, error } = useLeagues(searchTerm);
 
   const {
-    teams,
-    loading: teamsLoading,
-    error: teamsError,
-  } = useTeams(selectedLeague);
+    leagues,
+    loading,
+    error,
+    searchLeagues
+  } = useLeagues();
+
 
   return (
     <div className="App">
-      <header>
-        <h1>⚽ Football League Finder</h1>
-        <p>Search football leagues by country and explore their teams.</p>
-      </header>
 
-      <SearchBar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
+      <h1>⚽ Sports Team Finder</h1>
 
-      {loading && <h2 className="loading">Loading leagues...</h2>}
+      <p className="subtitle">
+        Search football leagues and discover teams
+      </p>
 
-      {error && <p className="error">{error}</p>}
 
-      {!loading && !error && (
-        <>
-          <h3 className="league-count">
-            {leagues.length} leagues found
-          </h3>
+      <SearchBar onSearch={searchLeagues} />
 
-          <div className="league-container">
-            {leagues.map((league) => (
-              <LeagueCard
-                key={league.idLeague}
-                league={league}
-                onViewTeams={setSelectedLeague}
-              />
-            ))}
-          </div>
-        </>
-      )}
 
-      {selectedLeague && (
-        <>
-          <h2>Teams in {selectedLeague}</h2>
+      {
+        loading && (
+          <p className="loading">
+            Loading leagues...
+          </p>
+        )
+      }
 
-          {teamsLoading && <p>Loading teams...</p>}
 
-          {teamsError && <p>{teamsError}</p>}
+      {
+        error && (
+          <p className="error">
+            {error}
+          </p>
+        )
+      }
 
-          <div className="league-container">
-            {teams.map((team) => (
-              <TeamCard
-                key={team.idTeam}
-                team={team}
-              />
-            ))}
-          </div>
-        </>
-      )}
+
+      <div className="league-container">
+
+        {
+          leagues.map((league)=>(
+            <LeagueCard
+              key={league.idLeague}
+              league={league}
+            />
+          ))
+        }
+
+      </div>
+
+
     </div>
-  );
+  )
 }
+
 
 export default App;
